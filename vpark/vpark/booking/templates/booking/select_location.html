@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Select Location</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.pg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/booking.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/select_location.css' %}" rel="stylesheet">
+  
+  
+  <!-- Font awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">VPARK</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul class="">
+          <li class=""><a href="{% url 'index' %}">Home</a></li>
+          <li><a  href="{% url 'index' %}">About</a></li>
+          <li><a  href="{% url 'index' %}">Services</a></li>
+          <li><a  href="{% url 'index' %}">Pricing</a></li>
+
+          <li><a  href="{% url 'index' %}">Contact</a></li>
+          <li class="active"><a href="{% url 'booking:select_location' %}">Book</a></li>
+          <li class=""><a href="{% url 'booking:register_location' %}">Register Location</a></li>
+          {% if user.is_superuser %}
+          <li class=""><a href="{% url 'gateway:entry' %}">Entry</a></li>
+          <li class=""><a href="{% url 'gateway:exit' %}">Exit</a></li>
+          {% endif %}
+
+		  {% if user.is_authenticated %}
+          <li class=""><a href="{% url 'authenticate:profile' pk=user.pk %}">Profile</a></li>
+		  <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:logout' %}" class="btn-buy">Logout</a>
+          </li>
+          {% else %}
+          <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:login' %}" class="btn-buy">LogIn</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  <!-- Booking Details -->
+
+<div class="container pb-5" style="padding-top:70px">
+    <div class="contact__wrapper shadow-lg mt-n9">
+        <div class="row no-gutters">
+            
+    
+             <div class="col-lg-10 contact-form__wrapper p-5 order-lg-1">
+                <form method="POST" class="contact-form form-validate" novalidate="novalidate">
+                    {% csrf_token %}
+				  <!-- Title -->
+				  <div class="title text-center ml-5 pl-5 pb-5">
+				    <h3 class="">Select Parking Location</h3>
+					<p class="text-muted" style="font-size:0.8rem">You can't park closer instantly book your space today</p>
+				  </div>
+				  <!-- End of Title -->
+				  <!-- Start of Cards -->
+
+				   <!-- Card 1 -->
+				<div class="row" style="margin-left:90px">
+                    {% for i in location %}
+	               <div class='col-sm-6 col-lg-4 mx-auto my-3'>
+                    <div class='card card-shadow '>
+	                 <div class='img-container'>
+                       {% if i.image %}
+	                  <img src="{{ i.image.url }}" alt="{% static 'assets/img/location.jpg' %}" class='card-img-top card-img'>
+                       {% else %}
+                      <img src="{% static 'assets/img/location.jpg' %}" class='card-img-top card-img'>
+                       {% endif %}
+	                 </div>
+	                 <div class='card-body '>
+	                   <div class='card-text text-center'>
+                           <h5 class='diplay-4'><a href="{% url 'booking:booking' pk=i.pk %}">{{ i.location_name }}</a></h5>
+                           <p>{{ i.location_address }}</p>
+                           <a href="{{ i.location_link }}">Go To Maps</a>
+	                 </div>
+	                 </div>
+	                </div>
+                   </div>
+                       {% endfor %}
+
+
+				  <!-- End of Cards -->
+                </div>
+                </form>
+			</div>
+            </div>
+			
+            <!-- End Contact Form Wrapper -->
+    
+        </div>
+    </div>
+
+  <!-- End of Booking -->
+  
+  
+  
+    <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>VPARK</h3>
+      <p>We are the official providers of parking. You can't park closer!</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>VPARK</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">TeamMate</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

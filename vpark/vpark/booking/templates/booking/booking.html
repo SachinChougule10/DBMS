@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Booking</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.pg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/booking.css' %}" rel="stylesheet">
+  
+  <!-- Font awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Selecao - v2.3.1
+  * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">VPARK</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul class="">
+          <li class=""><a href="{% url 'index' %}">Home</a></li>
+          <li><a  href="{% url 'index' %}">About</a></li>
+          <li><a  href="{% url 'index' %}">Services</a></li>
+          <li><a  href="{% url 'index' %}">Pricing</a></li>
+
+          <li><a  href="{% url 'index' %}">Contact</a></li>
+          <li class="active"><a href="{% url 'booking:select_location' %}">Book</a></li>
+          <li class=""><a href="{% url 'booking:register_location' %}">Register Location</a></li>
+          {% if user.is_superuser %}
+          <li class=""><a href="{% url 'gateway:entry' %}">Entry</a></li>
+          <li class=""><a href="{% url 'gateway:exit' %}">Exit</a></li>
+          {% endif %}
+
+		  {% if user.is_authenticated %}
+            <li class=""><a href="{% url 'authenticate:profile' pk=user.pk %}">Profile</a></li>
+		  <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:logout' %}" class="btn-buy">Logout</a>
+          </li>
+          {% else %}
+          <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:login' %}" class="btn-buy">LogIn</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  <!-- Booking Details -->
+
+<div class="container pb-5" style="padding-top:70px">
+    <div class="contact__wrapper shadow-lg mt-n9">
+        <div class="row no-gutters">
+            <div class="col-lg-5 contact-info__wrapper gradient-brand-color p-5 order-lg-2" style="align-content:center">
+                <h3 class="color--white mb-5">Get in Touch</h3>
+    
+                <ul class="contact-info__list list-style--none position-relative z-index-101">
+                    <li class="mb-4 pl-4">
+                        <span class="position-absolute"><i class="fas fa-envelope"></i></span> support@vpark.com
+                    </li>
+                    <li class="mb-4 pl-4">
+                        <span class="position-absolute"><i class="fas fa-phone"></i></span> {{phone}}
+                    </li>
+                    <li class="mb-4 pl-4">
+                        <span class="position-absolute"><i class="fas fa-map-marker-alt"></i></span> {{location_address}}
+    
+                        <div class="mt-3">
+                            <a href="{{location_link}}" target="_blank" class="text-link link--right-icon text-white">Get directions <i class="link__icon fa fa-directions"></i></a>
+                        </div>
+                    </li>
+                </ul>
+    
+                <figure class="figure position-absolute m-0 opacity-06 z-index-100" style="bottom:0; right: 10px">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="444px" height="626px">
+                        <defs>
+                            <linearGradient id="PSgrad_1" x1="0%" x2="81.915%" y1="57.358%" y2="0%">
+                                <stop offset="0%" stop-color="rgb(255,255,255)" stop-opacity="1"></stop>
+                                <stop offset="100%" stop-color="rgb(0,54,207)" stop-opacity="0"></stop>
+                            </linearGradient>
+    
+                        </defs>
+                        <path fill-rule="evenodd" opacity="0.302" fill="rgb(72, 155, 248)" d="M816.210,-41.714 L968.999,111.158 L-197.210,1277.998 L-349.998,1125.127 L816.210,-41.714 Z"></path>
+                        <path fill="url(#PSgrad_1)" d="M816.210,-41.714 L968.999,111.158 L-197.210,1277.998 L-349.998,1125.127 L816.210,-41.714 Z"></path>
+                    </svg>
+                </figure>
+            </div>
+    
+            <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1">
+                <form method="POST" class="contact-form form-validate" novalidate="novalidate">
+                    {% csrf_token %}
+                    <div class="row">
+					    <div class="mx-auto">
+					      <h3 class="mb-5 text-center">Book A Space</h3>
+						</div>
+
+                    <div class="">
+                        {% for message in messages %}
+                          <div class="alert alert-success">
+                           <a class="close" href="#" data-dismiss="alert">×</a>
+
+                           {{ message }}
+
+                          </div>
+                        {% endfor %}
+                    </div>
+
+                        <hr>
+                        <div class="col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="vehicle_no">Vehicle Number</label>
+                                <input type="text" class="form-control" id="vehiclenumber" name="vehicle_no" placeholder="MH48 1234" required>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Type -->
+                        <div class="col-sm-12 form-group pt-4">
+                        <select class="form-select form-control item" aria-label="Vehicle Type" name="vehicle_type" required>
+                            <option>Four Wheeler</option>
+                            <option>Three Wheeler</option>
+                            <option>Two Wheeler</option>
+                        </select>
+                        </div>
+			<!-- End of Vehicle Type -->
+
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="email">In-Time</label>
+                                <input type="time" class="form-control" id="start_time" name="start_time" required>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label for="outtime">Out-Time</label>
+                                <input type="time" class="form-control" id="end_time" name="end_time" required>
+                            </div>
+                        </div>
+						
+						<div class="col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="date">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+						
+						<div class="col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label class="required-field" for="date">Slots</label>
+                                <input type="text" class="form-control" id="slot" name="slots" required>
+                            </div>
+                        </div>
+
+                        <!-- Space Left -->
+                        <hr>
+                        <div class="col-sm-12 mb-5">
+                           <div class="mx-auto">
+                               <div class="row">
+                                   <div class="col-sm-12">
+                                       <h4 class="mb-2 text-center">Space Left : </h4>
+                                   </div>
+                                   <div class="col-sm-4">
+                                       <h4 class="mb-2 text-center">Four Wheelers :- {{ vehicle_type_four }}</h4>
+                                   </div>
+					               <div class="col-sm-4">
+                                       <h4 class="mb-2 text-center">Two Wheelers :- {{ vehicle_type_two }}</h4>
+                                   </div>
+					               <div class="col-sm-4">
+                                       <h4 class="mb-2 text-center">Three Wheelers :- {{ vehicle_type_three }}</h4>
+                                   </div>
+
+                               </div>
+						   </div>
+
+                        </div>
+                        <!-- End of Space Left -->
+    
+                        <div class="col-sm-12 mb-3">
+                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        </div>
+    
+                    </div>
+                </form>
+            </div>
+            <!-- End Contact Form Wrapper -->
+    
+        </div>
+    </div>
+</div>
+  <!-- End of Booking -->
+  
+  
+  
+    <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>VPARK</h3>
+      <p>We are the official providers of parking. You can't park closer!</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>VPARK</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/VPARK-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">TeamMate</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

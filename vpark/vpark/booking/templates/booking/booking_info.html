@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Booking | Details</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.pg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/signup.css' %}">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">VPARK</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul class="">
+          <li class=""><a href="{% url 'index' %}">Home</a></li>
+          <li><a  href="{% url 'index' %}">About</a></li>
+          <li><a  href="{% url 'index' %}">Services</a></li>
+          <li><a  href="{% url 'index' %}">Pricing</a></li>
+
+          <li><a  href="{% url 'index' %}">Contact</a></li>
+          <li class="active"><a href="{% url 'booking:select_location' %}">Book</a></li>
+          <li class=""><a href="{% url 'booking:register_location' %}">Register Location</a></li>
+          {% if user.is_superuser %}
+          <li class=""><a href="{% url 'gateway:entry' %}">Entry</a></li>
+          <li class=""><a href="{% url 'gateway:exit' %}">Exit</a></li>
+          {% endif %}
+
+		  {% if user.is_authenticated %}
+            <li class=""><a href="{% url 'authenticate:profile' pk=user.pk %}">Profile</a></li>
+		  <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:logout' %}" class="btn-buy">Logout</a>
+          </li>
+          {% else %}
+
+          <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:login' %}" class="btn-buy">LogIn</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  
+  
+  
+  <!-- Sign UP -->
+  <div class="registration-form social-media" style="padding-bottom:60px;margin-top-20px">
+        <section>
+            <form method="POST">
+   <div class="row d-flex align-items-center justify-content-center">
+    <div class="col">
+	 <!-- Table -->
+	 <table class="table table-hover table-bordered" style="border-radius:10px;font-size:1rem">
+	    <!-- Table Title -->
+	     <div class="text-center mb-4 pr-5 pb-3">
+	      <h2>Vehicle Entry Details</h2>
+	     </div>
+	    <!-- End of Table Title -->
+		<!-- Vehicle Number -->
+         <tr>
+          <th scope="row">Parking Loaction </th>
+          <td>{{ location }}</td>
+         </tr>
+        <!-- Vehicle Number -->
+         <tr>
+          <th scope="row">Vehicle Number </th>
+          <td>{{ vehicle_no }}</td>
+         </tr>
+         <!-- Vehicle Type -->
+         <tr>
+          <th scope="row">Vehicle Type</th>
+          <td>{{ vehicle_type }}</td>
+         </tr>
+         <!-- Today's Date -->
+         <tr>
+          <th scope="row">In-Date</th>
+          <td> {{ date }}</td>
+         </tr>
+         <!-- Time -->
+         <tr>
+          <th scope="row">In-Time</th>
+          <td>{{ in_time }}</td>
+         </tr>
+         <!-- Mobile -->
+         <tr>
+          <th scope="row">Mobile Number</th>
+          <td>{{ user.mobile }}</td>
+         </tr>
+  
+  </table>
+  <!-- End of Table -->
+     <div class="row">
+
+       <div class="col-12 form-group pt-3">
+          <button id="rzp-button1" class="btn btn-block create-account">Book</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_C9CpGpkPwIljXs",
+    "amount": "{{ cost }}",
+    "currency": "INR",
+    "name": "VPARK",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{ payment.id }}",
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+    },
+    "prefill": {
+        "name": "Sachin Chougule",
+        "email": "deepakchaudhari265@gmail.com",
+        "contact": "1234567891"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+       </div>
+     </div>
+	</div>
+   </div>
+            </form>
+        </section>
+    </div>
+  <!-- End of Signup -->
+
+  
+    <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>VPARK</h3>
+      <p>We are the official providers of parking. You can't park closer!</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>VPARK</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">TeamMate</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/signup.js' %}"></script>
+</body>
+
+</html>

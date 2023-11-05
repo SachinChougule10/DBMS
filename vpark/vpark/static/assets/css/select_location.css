@@ -1,0 +1,17 @@
+.img-container{
+	position: relative;
+	cursor: pointer;
+    overflow: hidden;	
+}
+.img-container:hover .card-img{
+	transform: scale(1.2);
+	
+}
+
+.card-img{
+	transition: all 0.9s ease-in-out;
+}
+
+.card-shadow:hover{
+	box-shadow: 0 10px 15px black;
+}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>My Profile</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.pg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">VPARK</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul class="">
+          <li class=""><a href="{% url 'index' %}">Home</a></li>
+          <li><a  href="{% url 'index' %}">About</a></li>
+          <li><a  href="{% url 'index' %}">Services</a></li>
+          <li><a  href="{% url 'index' %}">Pricing</a></li>
+
+          <li><a  href="{% url 'index' %}">Contact</a></li>
+          <li class=""><a href="{% url 'booking:select_location' %}">Book</a></li>
+          <li class=""><a href="{% url 'booking:register_location' %}">Register Location</a></li>
+          {% if user.is_superuser %}
+          <li class=""><a href="{% url 'gateway:entry' %}">Entry</a></li>
+          <li class=""><a href="{% url 'gateway:exit' %}">Exit</a></li>
+          {% endif %}
+
+		  {% if user.is_authenticated %}
+          <li class="active"><a href="{% url 'authenticate:profile' pk=user.pk %}">Profile</a></li>
+		  <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:logout' %}" class="btn-buy">Logout</a>
+          </li>
+          {% else %}
+          <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:login' %}" class="btn-buy">LogIn</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+
+
+<main id="main">
+
+<!-- Profile Section -->
+   <div class="container mt-5 pt-5">
+    <div class="main-body mt-5">
+    
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    {% if other_info.image %}
+                    <img src="{{ other_info.image.url }}" alt="Admin" class="mt-4 img-fluid rounded-circle">
+                    {% else %}
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="mt-4 img-fluid rounded-circle">
+                    {% endif %}
+                    <div class="mt-3">
+                      <h4>{{ first_name }} {{ last_name }}</h4>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user_info.first_name }} {{ user_info.last_name }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user_info.email }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ other_info.phone }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Mobile</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ other_info.mobile }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ other_info.address }}
+                    </div>
+                  </div>
+                    <!-- Edit and Password -->
+                    <hr>
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <a href="{% url 'authenticate:edit_profile' pk=user.pk %}" class="btn btn-primary">Edit</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="{% url 'authenticate:change_profile_photo' pk=user.pk %}" class="btn btn-primary">Change Profile Photo</a>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <a href="{% url 'authenticate:change_password' pk=user.pk %}" class="btn btn-primary">Change Password</a>
+                    </div>
+                  </div>
+                    <!-- End of edit and password -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+<!-- End of Profile Section -->
+
+</main>
+<!-- History -->
+<section class="container">
+  <table class="table ">
+    <thead>
+	 <tr>
+	   <th scope="col">#</th>
+	   <th scope="col">Place</th>
+	   <th scope="col">Vechile</th>
+	   <th scope="col">Vechile No.</th>
+	   <th scope="col">Entry</th>
+	   <th scope="col">Exit</th>
+	   <th Scope="col">Total</th>
+	 </tr>
+	</thead>
+	<tbody>
+    <script>var i=1;</script>
+    {% for book in book %}
+	 <tr>
+	  <th scope="row"><script>document.write(i);i++;</script></th>
+	  <td> {{ book.location.location_name }}</td>
+	  <td> {{ book.vehicle_type }}</td>
+	  <td> {{ book.vehicle_no }}</td>
+	  <td> {{ book.start_time }} </td>
+	  <td> {{ book.end_time }} </td>
+	  <td> {{ book.price }}rs </td>
+	 </tr>
+    {% endfor %}
+
+	</tbody>
+  </table>
+</section>
+<!-- End of History -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>VPARK</h3>
+      <p>We are the official providers of parking. You can't park closer!</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>VPARK</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">TeamMate</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

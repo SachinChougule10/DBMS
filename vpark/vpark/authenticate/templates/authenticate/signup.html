@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>SignUp</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.pg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/signup.css' %}">
+  
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">VPARK</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul class="">
+          <li class=""><a href="{% url 'index' %}">Home</a></li>
+          <li><a  href="{% url 'index' %}">About</a></li>
+          <li><a  href="{% url 'index' %}">Services</a></li>
+          <li><a  href="{% url 'index' %}">Pricing</a></li>
+
+          <li><a  href="{% url 'index' %}">Contact</a></li>
+          <li class=""><a href="{% url 'booking:select_location' %}">Book</a></li>
+          <li class=""><a href="{% url 'booking:register_location' %}">Register Location</a></li>
+          {% if user.is_superuser %}
+          <li class=""><a href="{% url 'gateway:entry' %}">Entry</a></li>
+          <li class=""><a href="{% url 'gateway:exit' %}">Exit</a></li>
+          {% endif %}
+
+		  {% if user.is_authenticated %}
+            <li class=""><a href="{% url 'authenticate:profile' pk=user.pk %}">Profile</a></li>
+		  <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:logout' %}" class="btn-buy">Logout</a>
+          </li>
+          {% else %}
+          <li class=" btn-wrap active">
+                <a href="{% url 'authenticate:login' %}" class="btn-buy">LogIn</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  
+  <!-- Sign UP -->
+  <div class="registration-form">
+      <section>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-icon">
+                <span><i class="icon icon-user"></i></span>
+            </div>
+			<!-- First and Last name -->
+			<div class="row">
+			  <div class="col-6">
+			   <div class="form-group">
+                <input type="text" class="form-control item" id="firstname" placeholder="Firstname" name="first_name">
+               </div>
+			  </div>
+			  <div class="col-6">
+			   <div class="form-group">
+                <input type="text" class="form-control item" id="lastname" placeholder="Lastname" name="last_name">
+               </div>
+			  </div>
+			</div>
+			<!-- End of First and Last name -->
+            <div class="form-group">
+                <input type="text" class="form-control item" id="username" placeholder="Username" name="username" required>
+            </div>
+            <!-- Profile Photo -->
+            <div class="input-group">
+                          <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="myfiles">
+            </div>
+            <!-- End of Profile Photo -->
+            <div class="form-group">
+                <input type="password" class="form-control item" id="password" placeholder="Password" name="password" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control item" id="email" placeholder="Email" name="email" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control item" id="phone-number" placeholder="Phone Number" name="phone" required>
+            </div>
+			<div class="form-group">
+                <input type="text" class="form-control item" id="mobile-number" placeholder="Mobile Number" name="mobile" required>
+            </div>
+			<!-- Age -->
+			<div class="form-group">
+                <input type="text" class="form-control item" id="age" placeholder="Age" name="age" required>
+            </div>
+            
+			<!-- End of Age -->
+
+            <div class="form-group">
+                <input type="text" class="form-control item" id="address" placeholder="address" name="address" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-block create-account">Create Account</button>
+            </div>
+
+
+        </form>
+          </section>
+        <div class="social-media">
+            <h5>Sign up with social media</h5>
+            <div class="social-icons">
+                <a href="#"><i class="icon-social-facebook" title="Facebook"></i></a>
+                <a href="#"><i class="icon-social-google" title="Google"></i></a>
+                <a href="#"><i class="icon-social-twitter" title="Twitter"></i></a>
+            </div>
+        </div>
+    </div>
+  <!-- End of Signup -->
+  
+  
+  
+  
+  
+  
+  
+  
+   <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>VPARK</h3>
+      <p>We are the official providers of parking. You can't park closer!</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>VPARK</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">TeamMate</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+{% static '
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/signup.js' %}"></script>
+  
+</body>
+
+</html>
